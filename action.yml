@@ -15,4 +15,4 @@ outputs:
     description: 'deployed surge site'
 runs:
   using: 'node12'
-  main: 'dist/index.js'
+  main: 'index.js'

@@ -1,13 +1,18 @@
 name: 'Wait'
 description: 'Wait a designated number of milliseconds'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  dist-folder:
+    description: 'built files to deploy to surge.sh'
+    default: './'
+  surge-token:
+    description: 'surge login token'
     required: true
-    default: '1000'
+  surge-login:
+    description: 'surge login email'
+    required: true
 outputs:
-  time: # output will be available to future steps 
-    description: 'The message to output'
+  surge-url:
+    description: 'deployed surge site'
 runs:
   using: 'node12'
   main: 'dist/index.js'

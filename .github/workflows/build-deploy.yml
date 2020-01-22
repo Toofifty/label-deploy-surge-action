@@ -1,0 +1,17 @@
+name: "build-deploy-surge"
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - 'releases/*'
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: ./
+      with:
+        dist-folder: './test-dist'
+        surge-token: 'e010f454bfd5458ae73c47b3f98e8f57'

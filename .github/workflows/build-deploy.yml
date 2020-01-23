@@ -1,0 +1,16 @@
+name: "build-deploy-surge"
+on:
+  pull_request
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: ./
+      with:
+        dist-folder: ''
+        surge-token: ''
+        surge-login: ''
+        label: ''
+        build-script: ''

@@ -1,13 +1,22 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'Label controlled Surge deploys'
+description: 'Run a build and deploy the result to surge.sh when a PR contains a label'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  dist-folder:
+    description: 'built files to deploy to surge.sh'
+    default: './'
+  surge-token:
+    description: 'surge login token'
     required: true
-    default: '1000'
+  surge-login:
+    description: 'surge login email'
+    required: true
+  label:
+    description: 'label to filter PRs'
+  build-script:
+    description: 'build script to run before deployment'
 outputs:
-  time: # output will be available to future steps 
-    description: 'The message to output'
+  surge-url:
+    description: 'deployed surge site'
 runs:
   using: 'node12'
-  main: 'dist/index.js'
+  main: 'index.js'

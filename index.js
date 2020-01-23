@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const { exec } = require('@actions/exec');
 const surge = require('surge')({ default: 'publish' });
 
 const TASK_REGEX = /^\[([\w-\d]+)\]/;
@@ -23,7 +24,9 @@ const shouldDeploy = pullRequest => {
     const label = core.getInput('label');
 
     return (
-        pullRequest && pullRequest.labels && pullRequest.labels.includes(label)
+        pullRequest &&
+        pullRequest.labels &&
+        !!pullRequest.labels.find(({ name }) => name === label)
     );
 };
 
@@ -32,20 +35,25 @@ const run = async () => {
         const { pull_request: pullRequest } = github.context.payload;
         if (!shouldDeploy(pullRequest)) {
             console.log('Label not found, skipping');
+            console.log(pullRequest);
             return;
         }
 
-        const domain = makeDomain(pullRequest);
+        const script = core.getInput('build-script');
+        if (script) {
+            console.log('Running build script');
+            await exec(script);
+        }
+
+        const domain = makeDomain(pullRequest) + '.surge.sh';
         const dist = core.getInput('dist-folder');
         process.env.SURGE_TOKEN = core.getInput('surge-token');
         process.env.SURGE_LOGIN = core.getInput('surge-login');
 
-        console.log(`Deploying to surge.sh from ${dist}`);
-        console.log(github.context);
+        console.log(`Deploying to ${domain} from ${dist}`);
 
         surge([dist, domain]);
 
-        core.setOutput('time', new Date().toTimeString());
         core.setOutput('surge-url', domain);
     } catch (error) {
         core.setFailed(error.message);

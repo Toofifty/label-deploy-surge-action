@@ -1,5 +1,5 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'Label controlled Surge deploys'
+description: 'Run a build and deploy the result to surge.sh when a PR contains a label'
 inputs:
   dist-folder:
     description: 'built files to deploy to surge.sh'
@@ -12,6 +12,8 @@ inputs:
     required: true
   label:
     description: 'label to filter PRs'
+  build-script:
+    description: 'build script to run before deployment'
 outputs:
   surge-url:
     description: 'deployed surge site'

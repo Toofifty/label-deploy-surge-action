@@ -1,7 +1,6 @@
 name: "build-deploy-surge"
 on:
   pull_request:
-  push:
     branches:
       - master
       - 'releases/*'
@@ -15,3 +14,5 @@ jobs:
       with:
         dist-folder: './test-dist'
         surge-token: 'e010f454bfd5458ae73c47b3f98e8f57'
+        surge-login: 'alex@matho.me'
+        label: 'do-deploy'

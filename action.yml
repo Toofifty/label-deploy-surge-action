@@ -10,6 +10,8 @@ inputs:
   surge-login:
     description: 'surge login email'
     required: true
+  label:
+    description: 'label to filter PRs'
 outputs:
   surge-url:
     description: 'deployed surge site'
